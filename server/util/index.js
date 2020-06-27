@@ -24,8 +24,39 @@ function convertPositionToIdx({ x, y }) {
   return y * 8 + x
 }
 
+function surroundPosition({ x = 0, y = 0 }) {
+  const retval = []
+  if (x > 0) {
+    retval.push(convertPositionToIdx({ x: x - 1, y }))
+  }
+  if (y < 7) {
+    retval.push(convertPositionToIdx({ x, y: y + 1 }))
+  }
+  if (x < 7) {
+    retval.push(convertPositionToIdx({ x: x + 1, y: y }))
+  }
+  if (y > 0) {
+    retval.push(convertPositionToIdx({ x, y: y - 1 }))
+  }
+  if (x < 7 && y > 0) {
+    retval.push(convertPositionToIdx({ x: x + 1, y: y - 1 }))
+  }
+  if (y > 0 && x > 0) {
+    retval.push(convertPositionToIdx({ x: x - 1, y: y - 1 }))
+  }
+  if (x > 0 && y < 7) {
+    retval.push(convertPositionToIdx({ x: x - 1, y: y + 1 }))
+  }
+  if (x < 7 && y < 7) {
+    retval.push(convertPositionToIdx({ x: x + 1, y: y + 1 }))
+  }
+
+  return retval
+}
+
 module.exports = {
   printBoard,
   convertIdxToPosition,
-  convertPositionToIdx
+  convertPositionToIdx,
+  surroundPosition
 }

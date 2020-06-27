@@ -1,8 +1,10 @@
 import { observable, action } from "mobx";
 import { PIECES } from "../utils/constant";
+import { surroundPosition, convertIdxToPosition } from "../utils";
 
 export default class GameStore {
     @observable board: Array<number> = []
+    @observable player: number = 1
 
     @action initBoard() {
         this.board = Array(64).fill(0)
@@ -31,5 +33,16 @@ export default class GameStore {
 
         this.board[59] = -PIECES.QUEEN
         this.board[60] = -PIECES.KING
+    }
+
+    isShowing(idx: number) {
+        if (this.board[idx] / this.player > 0) return true
+        const surround = surroundPosition(convertIdxToPosition(idx))
+        for (let pos of surround) {
+            if (this.board[pos] / this.player > 0) {
+                return true
+            }
+        }
+        return false
     }
 }

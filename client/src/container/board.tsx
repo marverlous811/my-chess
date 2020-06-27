@@ -2,7 +2,7 @@ import * as React from 'react'
 import GameStore from '../store/game.store'
 import { observer, inject } from 'mobx-react'
 import Square from '../component/square'
-import { isEven, backgroundImagePiece } from '../utils'
+import { isEven, backgroundImagePiece, fogImg } from '../utils'
 import { toJS } from 'mobx'
 
 interface IBoardProps {
@@ -16,7 +16,8 @@ export default class Board extends React.Component<IBoardProps>{
         this.props.gameStore.initBoard()
     }
     renderSquare(i: number, shade: string) {
-        return <Square key={i} shade={shade} style={backgroundImagePiece(this.props.gameStore.board[i])} />
+        const style = this.props.gameStore.isShowing(i) ? backgroundImagePiece(this.props.gameStore.board[i]) : fogImg()
+        return <Square key={i} shade={shade} style={style} />
     }
 
     render() {

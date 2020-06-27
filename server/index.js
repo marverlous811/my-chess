@@ -25,7 +25,7 @@ rl.on('line', async line => {
   }
 })
 
-const ws = new wsServer({
+const wsS = new wsServer({
   server
 })
-ws.on('connection', ws => {})
+wsS.on('connection', ws => {})

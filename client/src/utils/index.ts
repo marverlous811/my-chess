@@ -29,6 +29,10 @@ function pawnImage(piece: number): string {
     return piece > 0 ? 'https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt45.svg' : 'https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt45.svg'
 }
 
+export function fogImg() {
+    return { backgroundImage: "url(https://upload.wikimedia.org/wikipedia/en/e/e5/Perlin.png)" }
+}
+
 export function backgroundImagePiece(piece: number) {
     const pieceType = Math.abs(piece)
     let iconUrl = ''
@@ -55,4 +59,45 @@ export function backgroundImagePiece(piece: number) {
     }
 
     return { backgroundImage: "url('" + iconUrl + "')" }
+}
+
+export function convertIdxToPosition(idx = 0) {
+    const x = idx % 8
+    const y = (idx - x) / 8
+
+    return { x, y }
+}
+
+export function convertPositionToIdx({ x = 0, y = 0 }) {
+    return y * 8 + x
+}
+
+export function surroundPosition({ x = 0, y = 0 }): Array<number> {
+    const retval = []
+    if (x > 0) {
+        retval.push(convertPositionToIdx({ x: x - 1, y }))
+    }
+    if (y < 7) {
+        retval.push(convertPositionToIdx({ x, y: y + 1 }))
+    }
+    if (x < 7) {
+        retval.push(convertPositionToIdx({ x: x + 1, y: y }))
+    }
+    if (y > 0) {
+        retval.push(convertPositionToIdx({ x, y: y - 1 }))
+    }
+    if (x < 7 && y > 0) {
+        retval.push(convertPositionToIdx({ x: x + 1, y: y - 1 }))
+    }
+    if (y > 0 && x > 0) {
+        retval.push(convertPositionToIdx({ x: x - 1, y: y - 1 }))
+    }
+    if (x > 0 && y < 7) {
+        retval.push(convertPositionToIdx({ x: x - 1, y: y + 1 }))
+    }
+    if (x < 7 && y < 7) {
+        retval.push(convertPositionToIdx({ x: x + 1, y: y + 1 }))
+    }
+
+    return retval
 }

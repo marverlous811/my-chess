@@ -6,7 +6,8 @@
         "module": "commonjs",
         "target": "ES2019",
         "jsx": "react",
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "strictFunctionTypes": false,
     },
     "include": [
         "src/**/*"

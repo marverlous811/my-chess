@@ -1,10 +1,19 @@
 import { observable, action } from "mobx";
-import { PIECES } from "../utils/constant";
+import { PIECES, SELECT_STATE, PLAYER_STATE } from "../utils/constant";
 import { surroundPosition, convertIdxToPosition } from "../utils";
+import { sdk, ISdkObservable } from "../sdk/game.sdk";
 
-export default class GameStore {
+export default class GameStore implements ISdkObservable {
     @observable board: Array<number> = []
     @observable player: number = 1
+    @observable turn: number = 1
+    @observable src = -1
+    @observable dest = -1
+    @observable state = PLAYER_STATE.IDLE
+    constructor() {
+        sdk.connectRoom()
+        sdk.addListener(this)
+    }
 
     @action initBoard() {
         this.board = Array(64).fill(0)
@@ -44,5 +53,63 @@ export default class GameStore {
             }
         }
         return false
+    }
+
+    @action updateMove(idx: number): number {
+        if (this.state !== PLAYER_STATE.PLAYING) return SELECT_STATE.ERROR
+        if (this.src === -1) {
+            return this.updateSrcMove(idx)
+        }
+        else if (this.dest === -1) {
+            return this.updateDestMove(idx)
+        }
+    }
+
+    @action updateSrcMove(idx: number): number {
+        if (this.turn !== this.player) return SELECT_STATE.ERROR
+        if (this.board[idx] === 0) return SELECT_STATE.ERROR
+        if (this.board[idx] / this.player < 0) return SELECT_STATE.ERROR
+
+        this.src = idx
+
+        return SELECT_STATE.SRC_SELECTED
+    }
+
+    @action updateDestMove(idx: number): number {
+        if (this.board[idx] / this.player > 0) return SELECT_STATE.ERROR
+        if (this.src === -1) return SELECT_STATE.ERROR
+
+        this.dest = idx
+
+        console.log(this.src, this.dest)
+        //TODO: call move
+
+        this.dest = -1
+        this.src = -1
+
+        return SELECT_STATE.MOV_COMPELTE
+    }
+
+    @action onJoin = (state: string) => {
+        if (state === 'success') {
+            this.state = PLAYER_STATE.WAIT
+        }
+        else if (state === 'error') {
+            this.state = PLAYER_STATE.ERROR
+        }
+    }
+
+    @action onReady = (state: string) => {
+        if (state === 'success') {
+            this.state = PLAYER_STATE.READY
+        }
+        else if (state === 'error') {
+            this.state = PLAYER_STATE.ERROR
+        }
+    }
+
+    @action onInit = (side: number) => {
+        this.player = side
+        this.state = PLAYER_STATE.PLAYING
     }
 }

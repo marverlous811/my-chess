@@ -12,7 +12,15 @@ const GAME_MODE = {
   FOG_MODE: 1
 }
 
+const PLAYER_STATE = {
+  JOINED: 1,
+  READY: 2,
+  PLAYING: 3,
+  ERROR: -1
+}
+
 module.exports = {
   PIECES,
-  GAME_MODE
+  GAME_MODE,
+  PLAYER_STATE
 }

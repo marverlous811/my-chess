@@ -3,6 +3,8 @@ const http = require('http')
 const readline = require('readline')
 
 const { PORT } = require('./config')
+const Manager = require('./control/manager')
+const Player = require('./control/player')
 const logger = require('./util/logger')('server')
 const server = http.createServer().listen(PORT, () => {
   logger.info(`server is listen at port ${PORT}...`)
@@ -25,7 +27,12 @@ rl.on('line', async line => {
   }
 })
 
+const manager = new Manager()
+
 const wsS = new wsServer({
   server
 })
-wsS.on('connection', ws => {})
+wsS.on('connection', ws => {
+  logger.debug('have user connected')
+  const player = new Player(ws, manager)
+})

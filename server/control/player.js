@@ -48,7 +48,14 @@ class Player {
     return this.sendMsg('ready:success')
   }
 
-  move(src, dest) {}
+  move(src, dest) {
+    if (!this.room) return
+    return this.room.move(src, dest)
+  }
+
+  onRoomUpdate(msg) {
+    return this.sendMsg(msg)
+  }
 
   handleMsg(data) {
     const args = data.split(':')
@@ -59,6 +66,8 @@ class Player {
         return this.join(args[0])
       case 'ready':
         return this.ready()
+      case 'move':
+        return this.move(parseInt(args[0]), parseInt(args[1]))
       default:
         return
     }

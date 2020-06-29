@@ -1,11 +1,12 @@
-const uri = 'ws://192.168.1.15:31798'
-
+// const uri = 'ws://192.168.1.15:31798'
+const uri = 'ws://127.0.0.1:31798'
 export interface ISdkObservable {
     onJoin?: (state: string) => void
     onReady?: (state: string) => void
     onInit?: (side: number) => void
-    onMove?: () => void
-    onGameOver?: () => void
+    onUpdate?: (board: Array<number>) => void
+    onTurnChange?: (turn: number) => void
+    onGameOver?: (winner: number) => void
     onLeave?: () => void
 }
 
@@ -56,7 +57,21 @@ export class GameSDK {
                 return
             }
             case 'init': {
-                if (this.listener) this.listener.onInit(args[0])
+                if (this.listener) this.listener.onInit(parseInt(args[0]))
+                return
+            }
+            case 'updateBoard': {
+                // console.log(args)
+                const board = args.map((value: any) => parseInt(value))
+                if (this.listener) this.listener.onUpdate(board)
+                return
+            }
+            case 'changeTurn': {
+                if (this.listener) this.listener.onTurnChange(parseInt(args[0]))
+                return
+            }
+            case 'winner': {
+                if (this.listener) this.listener.onGameOver(parseInt(args[0]))
                 return
             }
             default: break

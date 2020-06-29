@@ -1,6 +1,7 @@
 const Game = require('../lib/game')
 const { GAME_MODE, PLAYER_STATE } = require('../util/constant')
 const logger = require('../util/logger')('room')
+const { printBoard } = require('../util')
 
 class Room {
   constructor(name) {
@@ -12,9 +13,9 @@ class Room {
     this.game.setMode(GAME_MODE.FOG_MODE)
   }
 
-  boardcast(cmd, ...args) {
+  boardcast(msg) {
     for (let player of this.listUser) {
-      player.onRoomUpdate(cmd, ...args)
+      player.onRoomUpdate(msg)
     }
   }
 
@@ -64,6 +65,26 @@ class Room {
     const selectSide = Math.floor(Math.random())
     this.listUser[0].init(selectSide === 0 ? 1 : -1, this.game)
     this.listUser[1].init(selectSide === 0 ? -1 : 1, this.game)
+    this.game.init()
+  }
+
+  move(src, dest) {
+    const valid = this.game.move(src, dest)
+    logger.debug('move is valid: ', valid)
+    if (!valid) {
+      return
+    }
+
+    // console.log(this.game.board.join(':'))
+    printBoard(this.game.board)
+    this.boardcast(`updateBoard:${this.game.board.join(':')}`)
+
+    if (this.game.isWinner()) {
+      return this.boardcast(`winner:${this.game.turn}`)
+    }
+
+    this.game.changeTurn()
+    this.boardcast(`changeTurn:${this.game.turn}`)
   }
 }
 

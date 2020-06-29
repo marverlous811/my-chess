@@ -1,6 +1,7 @@
 const { initBoard, move } = require('./board')
 const Filter = require('./filter')
-const { GAME_MODE } = require('../util/constant')
+const { GAME_MODE, PIECES } = require('../util/constant')
+const logger = require('../util/logger')('game')
 
 class Game {
   constructor() {
@@ -34,7 +35,10 @@ class Game {
 
   move(src, dest) {
     const piece = this.board[src]
-    if (piece / this.turn < 0) return this.board
+    if (piece / this.turn < 0) {
+      logger.warm('not this turn ', piece, this.turn, dest)
+      return false
+    }
 
     let newDest = dest
     if (this.filters.length > 0) {
@@ -43,13 +47,23 @@ class Game {
       }
     }
 
-    if (move(src, newDest, this.board)) {
-      this.board[newDest] = piece
-      this.board[src] = 0
-      this.turn *= -1
+    if (!move(src, newDest, this.board)) {
+      logger.error('move is not valid ', src, newDest)
+      return false
     }
 
-    return this.board
+    this.board[newDest] = piece
+    this.board[src] = 0
+
+    return true
+  }
+
+  isWinner() {
+    return !this.board.includes(-1 * this.turn * PIECES.KING)
+  }
+
+  changeTurn() {
+    this.turn *= -1
   }
 }
 

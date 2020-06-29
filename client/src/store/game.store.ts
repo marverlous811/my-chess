@@ -10,6 +10,7 @@ export default class GameStore implements ISdkObservable {
     @observable src = -1
     @observable dest = -1
     @observable state = PLAYER_STATE.IDLE
+    @observable winner = 0
     constructor() {
         sdk.connectRoom()
         sdk.addListener(this)
@@ -66,6 +67,7 @@ export default class GameStore implements ISdkObservable {
     }
 
     @action updateSrcMove(idx: number): number {
+        console.log(this.turn, this.player)
         if (this.turn !== this.player) return SELECT_STATE.ERROR
         if (this.board[idx] === 0) return SELECT_STATE.ERROR
         if (this.board[idx] / this.player < 0) return SELECT_STATE.ERROR
@@ -79,12 +81,9 @@ export default class GameStore implements ISdkObservable {
         if (this.board[idx] / this.player > 0) return SELECT_STATE.ERROR
         if (this.src === -1) return SELECT_STATE.ERROR
 
-        this.dest = idx
+        console.log(this.src, idx)
+        sdk.move(this.src, idx)
 
-        console.log(this.src, this.dest)
-        //TODO: call move
-
-        this.dest = -1
         this.src = -1
 
         return SELECT_STATE.MOV_COMPELTE
@@ -109,7 +108,22 @@ export default class GameStore implements ISdkObservable {
     }
 
     @action onInit = (side: number) => {
+        console.log('side...', side)
         this.player = side
         this.state = PLAYER_STATE.PLAYING
+    }
+
+    @action onUpdate = (board: Array<number>) => {
+        console.log(board)
+        if (board.length < 64) return
+        this.board = board
+    }
+
+    @action onTurnChange = (turn: number) => {
+        this.turn = turn
+    }
+
+    @action onGameOver = (winner: number) => {
+        this.winner = winner
     }
 }

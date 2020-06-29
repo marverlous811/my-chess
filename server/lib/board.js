@@ -1,5 +1,6 @@
 const { PIECES } = require('../util/constant')
 const pieces = require('./piece')
+const logger = require('../util/logger')('board')
 
 function initBoard() {
   const board = Array(64).fill(0)
@@ -76,13 +77,23 @@ function validMove(piece, src, dest, isDestEnemyOccupied = false) {
 }
 
 function move(src, dest, board = []) {
-  if (board.length !== 64) return false
-  if (board[src] === 0) return false
-  if (board[dest] !== 0 && board[src] / board[dest] > 0) return false
-
+  if (board.length !== 64) {
+    logger.error('board is not enough...')
+    return false
+  }
+  if (board[src] === 0) {
+    logger.error('not have piece in posiotion')
+    return false
+  }
+  if (board[dest] !== 0 && board[src] / board[dest] > 0) {
+    logger.error('have piece in dest')
+    return false
+  }
   const piece = board[src]
   const isDestEnemyOccupied = board[dest] !== 0 && board[dest] / board[src] < 0
+  logger.debug('isDestEnemyOccupied: ', isDestEnemyOccupied)
   if (!validMove(piece, src, dest, isDestEnemyOccupied)) {
+    logger.error('move error')
     return false
   }
 

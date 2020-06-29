@@ -12,6 +12,7 @@ function isMoveValid({ src, dest, player, isDestEnemyOccupied = false }) {
       return dest === src + 9 || dest === src + 7
     }
 
+    logger.debug('move forward 1 ', dest === src + 8)
     return (
       dest === src + 8 ||
       (dest === src + 16 && defaultPosition.w.indexOf(src) !== -1)

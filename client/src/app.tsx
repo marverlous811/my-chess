@@ -61,6 +61,7 @@ export class Hello extends React.Component<HelloProps, {}> {
                                 <Board gameStore={this.props.gameStore} />
                             </div>
                         </div>
+                        {this.props.gameStore.winner !== 0 ? <p>{this.props.gameStore.winner === -1 ? 'BLACK' : 'WHITE'}</p> : null}
                     </div> : null}
 
             </div>

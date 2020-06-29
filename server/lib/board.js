@@ -14,14 +14,14 @@ function initBoard() {
   board[56] = -PIECES.ROOK
   board[63] = -PIECES.ROOK
 
-  board[1] = PIECES.KNIGHT
+  board[1] = PIECES.KNIGHT //castle position
   board[6] = PIECES.KNIGHT
   board[57] = -PIECES.KNIGHT
-  board[62] = -PIECES.KNIGHT
+  board[62] = -PIECES.KNIGHT //castle position
 
   board[2] = PIECES.BISHOP
-  board[5] = PIECES.BISHOP
-  board[58] = -PIECES.BISHOP
+  board[5] = PIECES.BISHOP //castle position
+  board[58] = -PIECES.BISHOP //castle position
   board[61] = -PIECES.BISHOP
 
   board[3] = PIECES.QUEEN

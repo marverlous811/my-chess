@@ -1,6 +1,5 @@
-const Game = require('../lib/game')
-const { GAME_MODE } = require('../util/constant')
 const Room = require('./room')
+const logger = require('../util/logger')('manager')
 
 class Manager {
   constructor() {
@@ -22,6 +21,18 @@ class Manager {
 
     player.setRoom(room)
     return retval
+  }
+
+  userLeaveRoom(roomName) {
+    if (!this.listRoom.hasOwnProperty(roomName)) {
+      return
+    }
+
+    const room = this.listRoom[roomName]
+    if (room.isAllLeaved()) {
+      logger.info('all user in room leaved, will remove room...')
+      delete this.listRoom[roomName]
+    }
   }
 }
 

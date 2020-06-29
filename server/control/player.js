@@ -73,7 +73,14 @@ class Player {
     }
   }
 
-  onClose() {}
+  onClose() {
+    if (!this.room || isNaN(this.idx) || this.idx === -1) {
+      return
+    }
+
+    this.room.playerLeave(this.idx)
+    this.manager.userLeaveRoom(this.room.name)
+  }
 
   sendMsg(msg) {
     this.ws.send(msg)

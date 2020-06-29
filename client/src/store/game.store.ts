@@ -125,5 +125,6 @@ export default class GameStore implements ISdkObservable {
 
     @action onGameOver = (winner: number) => {
         this.winner = winner
+        this.state = PLAYER_STATE.ENDING
     }
 }

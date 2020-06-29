@@ -51,11 +51,31 @@ class Room {
     return true
   }
 
+  playerLeave(idx) {
+    if (idx >= this.listUser.length) {
+      logger.error('player not in list')
+      return false
+    }
+
+    logger.info(`room ${this.name} player ${idx + 1} ready`)
+    this.userState[idx] = PLAYER_STATE.LEAVED
+  }
+
   isAllReady() {
     let retval = true
     if (this.userState.length < 2) return false
     for (let state of this.userState) {
       retval = retval && state === PLAYER_STATE.READY
+    }
+
+    return retval
+  }
+
+  isAllLeaved() {
+    let retval = true
+    if (this.userState.length < 2) return false
+    for (let state of this.userState) {
+      retval = retval && state === PLAYER_STATE.LEAVED
     }
 
     return retval

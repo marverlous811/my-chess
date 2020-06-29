@@ -16,6 +16,7 @@ const PLAYER_STATE = {
   JOINED: 1,
   READY: 2,
   PLAYING: 3,
+  LEAVED: 4,
   ERROR: -1
 }
 

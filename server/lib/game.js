@@ -7,6 +7,7 @@ class Game {
   constructor() {
     this.board = []
     this.filters = []
+    this.history = []
   }
 
   init() {
@@ -51,6 +52,8 @@ class Game {
       logger.error('move is not valid ', src, newDest)
       return false
     }
+
+    this.history.push({ piece, src, newDest })
 
     this.board[newDest] = piece
     this.board[src] = 0

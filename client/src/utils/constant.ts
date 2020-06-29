@@ -18,5 +18,6 @@ export const PLAYER_STATE = {
     WAIT: 'WAIT',
     READY: 'READY',
     PLAYING: 'PLAYING',
+    ENDING: 'ENDING',
     ERROR: 'ERROR'
 }

@@ -26,7 +26,6 @@ export default class Board extends React.Component<IBoardProps>{
     onClick = (i: number) => {
         console.log('onClick...', i)
         const state = this.props.gameStore.updateMove(i)
-        console.log('select state...', state)
         if (state === SELECT_STATE.SRC_SELECTED) {
             this.isSelected = i
         } else {

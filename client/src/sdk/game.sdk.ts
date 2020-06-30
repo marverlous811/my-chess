@@ -6,6 +6,7 @@ export interface ISdkObservable {
     onInit?: (side: number) => void
     onUpdate?: (board: Array<number>) => void
     onTurnChange?: (turn: number) => void
+    onEvol?: (idx: number) => void
     onGameOver?: (winner: number) => void
     onLeave?: () => void
 }
@@ -66,6 +67,10 @@ export class GameSDK {
                 if (this.listener) this.listener.onUpdate(board)
                 return
             }
+            case 'evol': {
+                if (this.listener) this.listener.onEvol(parseInt(args[0]))
+                return
+            }
             case 'changeTurn': {
                 if (this.listener) this.listener.onTurnChange(parseInt(args[0]))
                 return
@@ -88,6 +93,10 @@ export class GameSDK {
 
     move(src: number, dst: number) {
         this.ws.send(`move:${src}:${dst}`)
+    }
+
+    evol(piece: number, idx: number) {
+        this.ws.send(`evol:${piece}:${idx}`)
     }
 }
 

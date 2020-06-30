@@ -11,6 +11,7 @@ export default class GameStore implements ISdkObservable {
     @observable dest = -1
     @observable state = PLAYER_STATE.IDLE
     @observable winner = 0
+    @observable evol = -1
     constructor() {
         sdk.connectRoom()
         sdk.addListener(this)
@@ -126,5 +127,14 @@ export default class GameStore implements ISdkObservable {
     @action onGameOver = (winner: number) => {
         this.winner = winner
         this.state = PLAYER_STATE.ENDING
+    }
+
+    @action onEvol = (idx: number) => {
+        this.evol = idx
+    }
+
+    @action evolution = (piece: number) => {
+        sdk.evol(piece, this.evol)
+        this.evol = -1
     }
 }

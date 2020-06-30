@@ -2,7 +2,7 @@ const { initBoard, move } = require('./board')
 const { isEmptyRow } = require('./piece/util')
 const Filter = require('./filter')
 const { GAME_MODE, PIECES } = require('../util/constant')
-const piece = require('./piece')
+const pieces = require('./piece')
 const logger = require('../util/logger')('game')
 
 class Game {
@@ -78,12 +78,12 @@ class Game {
       this.board[src] = 0
     }
 
-    this.history.push({ piece, src, newDest })
+    this.history.push({ piece, src, dest: newDest })
     return true
   }
 
   isCastleMove(src, dest) {
-    return piece.King.isCastleMove(src, dest, this.board)
+    return pieces.King.isCastleMove(src, dest, this.board)
   }
 
   canCastle(kingIdx, dest, rookIdx) {
@@ -95,12 +95,12 @@ class Game {
 
     //now king postion and new king postion not check by any opp pieces
     if (
-      piece.King.isChecked({
+      pieces.King.isChecked({
         idx: kingIdx,
         player: this.turn,
         board: this.board
       }) ||
-      piece.King.isChecked({
+      pieces.King.isChecked({
         idx: dest,
         player: this.turn,
         board: this.board
@@ -129,6 +129,20 @@ class Game {
 
   isWinner() {
     return !this.board.includes(-1 * this.turn * PIECES.KING)
+  }
+
+  isEvolution() {
+    if (this.history.length <= 0) return false
+    const lastMove = this.history[this.history.length - 1]
+    logger.debug(lastMove)
+    return (
+      Math.abs(lastMove.piece) === PIECES.PAWN &&
+      pieces.Pawn.isEvolution(lastMove.piece, lastMove.dest)
+    )
+  }
+
+  evolution(piece, idx) {
+    this.board[idx] = piece
   }
 
   changeTurn() {

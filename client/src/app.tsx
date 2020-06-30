@@ -5,6 +5,7 @@ import Board from "./container/board";
 import GameStore from "./store/game.store";
 import { sdk } from "./sdk/game.sdk";
 import { PLAYER_STATE } from "./utils/constant";
+import Evol from "./container/evol";
 
 export interface HelloProps {
     compiler: string
@@ -61,6 +62,7 @@ export class Hello extends React.Component<HelloProps, {}> {
                                 <Board gameStore={this.props.gameStore} />
                             </div>
                         </div>
+                        {this.props.gameStore.evol >= 0 ? <Evol gameStore={this.props.gameStore} /> : null}
                         {this.props.gameStore.winner !== 0 ? <p>{this.props.gameStore.winner === -1 ? 'BLACK' : 'WHITE'}</p> : null}
                     </div> : null}
 

@@ -5,6 +5,15 @@ const defaultPosition = {
   b: [48, 49, 50, 51, 52, 53, 54, 55]
 }
 
+function isEvolution(piece, idx) {
+  if (piece > 0) {
+    logger.debug(Math.floor(idx / 8))
+    return Math.floor(idx / 8) === 7
+  } else {
+    return Math.floor(idx / 8) === 0
+  }
+}
+
 function isMoveValid({ src, dest, player, isDestEnemyOccupied = false }) {
   logger.info('player: ', player, src, dest)
   if (player > 0) {
@@ -28,5 +37,6 @@ function isMoveValid({ src, dest, player, isDestEnemyOccupied = false }) {
 }
 
 module.exports = {
-  isMoveValid
+  isMoveValid,
+  isEvolution
 }

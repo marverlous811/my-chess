@@ -68,9 +68,15 @@ class Player {
         return this.ready()
       case 'move':
         return this.move(parseInt(args[0]), parseInt(args[1]))
+      case 'evol':
+        return this.evol(parseInt(args[0]), parseInt(args[1]))
       default:
         return
     }
+  }
+
+  evol(piece, idx) {
+    return this.room.onEvol(piece, idx)
   }
 
   onClose() {

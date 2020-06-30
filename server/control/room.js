@@ -96,15 +96,36 @@ class Room {
     }
 
     // console.log(this.game.board.join(':'))
-    printBoard(this.game.board)
+    // printBoard(this.game.board)
     this.boardcast(`updateBoard:${this.game.board.join(':')}`)
 
     if (this.game.isWinner()) {
       return this.boardcast(`winner:${this.game.turn}`)
     }
 
+    if (this.game.isEvolution()) {
+      const player = this.findUserBySide(this.game.turn)
+      if (player) return player.onRoomUpdate(`evol:${dest}`)
+    }
+
+    return this.moveComplete()
+  }
+
+  onEvol(piece, idx) {
+    logger.info('evolution...', piece, idx)
+    this.game.evolution(piece, idx)
+    this.boardcast(`updateBoard:${this.game.board.join(':')}`)
+
+    return this.moveComplete()
+  }
+
+  moveComplete() {
     this.game.changeTurn()
     this.boardcast(`changeTurn:${this.game.turn}`)
+  }
+
+  findUserBySide(side) {
+    return this.listUser.find(user => user.site === side)
   }
 }
 

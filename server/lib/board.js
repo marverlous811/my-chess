@@ -1,5 +1,6 @@
 const { PIECES } = require('../util/constant')
 const pieces = require('./piece')
+const { isEmptyColumn, isEmptyRow, isEmptyDiagonal } = require('./piece/util')
 const logger = require('../util/logger')('board')
 
 function initBoard() {
@@ -14,13 +15,13 @@ function initBoard() {
   board[56] = -PIECES.ROOK
   board[63] = -PIECES.ROOK
 
-  board[1] = PIECES.KNIGHT //castle position
-  board[6] = PIECES.KNIGHT
+  board[1] = PIECES.KNIGHT
+  board[6] = PIECES.KNIGHT //castle position
   board[57] = -PIECES.KNIGHT
   board[62] = -PIECES.KNIGHT //castle position
 
-  board[2] = PIECES.BISHOP
-  board[5] = PIECES.BISHOP //castle position
+  board[2] = PIECES.BISHOP //castle position
+  board[5] = PIECES.BISHOP
   board[58] = -PIECES.BISHOP //castle position
   board[61] = -PIECES.BISHOP
 
@@ -97,7 +98,20 @@ function move(src, dest, board = []) {
     return false
   }
 
-  return true
+  switch (piece) {
+    case PIECES.BISHOP:
+      return isEmptyDiagonal(src, dest, board)
+    case PIECES.QUEEN:
+      return (
+        isEmptyColumn(src, dest, board) ||
+        isEmptyRow(src, dest, board) ||
+        isEmptyDiagonal(src, dest, board)
+      )
+    case PIECES.ROOK:
+      return isEmptyColumn(src, dest, board) || isEmptyRow(src, dest, board)
+    default:
+      return true
+  }
 }
 
 module.exports = {

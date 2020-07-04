@@ -1,6 +1,6 @@
 const { convertIdxToPosition, convertPositionToIdx } = require('../../util')
 const { PIECES } = require('../../util/constant')
-const logger = require('../../util/logger')('King')
+const logger = require('../../util/logger')('board:King')
 
 function isMoveValid({ src, dest }) {
   return (

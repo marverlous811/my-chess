@@ -4,7 +4,9 @@ const warm = require('debug')('warm:')
 const error = require('debug')('error:')
 
 const logFilter = require('../config').LOGGER
+const disableFilter = require('../config').LOGGER_DISABLE
 require('debug').enable(logFilter)
+require('debug').disable(disableFilter)
 
 function logger(namespace = '') {
   const _debug = debug.extend(namespace)

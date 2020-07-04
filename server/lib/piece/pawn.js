@@ -1,4 +1,4 @@
-const logger = require('../../util/logger')('pawn')
+const logger = require('../../util/logger')('board:pawn')
 
 const defaultPosition = {
   w: [8, 9, 10, 11, 12, 13, 14, 15],

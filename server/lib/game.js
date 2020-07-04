@@ -3,7 +3,7 @@ const { isEmptyRow } = require('./piece/util')
 const Filter = require('./filter')
 const { GAME_MODE, PIECES } = require('../util/constant')
 const pieces = require('./piece')
-const logger = require('../util/logger')('game')
+const logger = require('../util/logger')('board:game')
 
 class Game {
   constructor() {

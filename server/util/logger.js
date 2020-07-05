@@ -1,10 +1,11 @@
-const debug = require('debug')('debug:')
-const info = require('debug')('info:')
-const warm = require('debug')('warm:')
-const error = require('debug')('error:')
+const log = require('debug')
+const debug = log('debug:')
+const info = log('info:')
+const warm = log('warm:')
+const error = log('error:')
 
 const logFilter = require('../config').LOGGER
-require('debug').enable(logFilter)
+log.enable(logFilter)
 
 function logger(namespace = '') {
   const _debug = debug.extend(namespace)

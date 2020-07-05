@@ -7,6 +7,10 @@ const PIECES = {
   PAWN: 1
 }
 
+const BOT_ALG_TYPE = {
+  MINMAX: 1
+}
+
 const GAME_MODE = {
   NORMAL: 0,
   FOG_MODE: 1
@@ -23,5 +27,6 @@ const PLAYER_STATE = {
 module.exports = {
   PIECES,
   GAME_MODE,
-  PLAYER_STATE
+  PLAYER_STATE,
+  BOT_ALG_TYPE
 }

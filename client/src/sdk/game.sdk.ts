@@ -1,5 +1,5 @@
-// const uri = 'ws://192.168.1.15:31798'
-const uri = 'ws://127.0.0.1:31798'
+const uri = 'ws://192.168.1.15:31798'
+// const uri = 'ws://127.0.0.1:31798'
 export interface ISdkObservable {
     onJoin?: (state: string) => void
     onReady?: (state: string) => void
@@ -85,6 +85,10 @@ export class GameSDK {
 
     joinRoom(name: string) {
         this.ws.send(`join:${name}`)
+    }
+
+    joinBot(name: string) {
+        this.ws.send(`join-bot:${name}`)
     }
 
     ready() {

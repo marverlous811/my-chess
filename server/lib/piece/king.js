@@ -1,6 +1,6 @@
 const { convertIdxToPosition, convertPositionToIdx } = require('../../util')
 const { PIECES } = require('../../util/constant')
-const logger = require('../../util/logger')('King')
+const logger = require('../../util/logger')('board:King')
 
 function isMoveValid({ src, dest }) {
   return (
@@ -17,7 +17,7 @@ function isMoveValid({ src, dest }) {
 
 function isCastleMove(src, dest, board = []) {
   const piece = board[src]
-  logger.debug(piece)
+  // logger.debug(piece)
   if (Math.abs(piece) !== PIECES.KING) {
     return false
   }

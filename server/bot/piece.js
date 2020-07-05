@@ -107,7 +107,7 @@ function getAbsValue(piece, isWhite, x, y) {
 function getPieceValue(piece, x, y) {
   if (piece === 0) return 0
 
-  const absValue = getAbsValue(piece, piece > 0, x, y)
+  const absValue = getAbsValue(Math.abs(piece), piece > 0, x, y)
   return piece > 0 ? absValue : -absValue
 }
 

@@ -17,7 +17,7 @@ function isMoveValid({ src, dest }) {
 
 function isCastleMove(src, dest, board = []) {
   const piece = board[src]
-  logger.debug(piece)
+  // logger.debug(piece)
   if (Math.abs(piece) !== PIECES.KING) {
     return false
   }

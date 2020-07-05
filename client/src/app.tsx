@@ -38,6 +38,14 @@ export class Hello extends React.Component<HelloProps, {}> {
         sdk.joinRoom(this.room)
     }
 
+    joinRoomBot = () => {
+        if (!this.room) {
+            console.log('not have room name...')
+            return
+        }
+        sdk.joinBot(this.room)
+    }
+
     ready = () => {
         sdk.ready()
     }
@@ -50,6 +58,7 @@ export class Hello extends React.Component<HelloProps, {}> {
 
                 <input value={this.room} name="room-name" onChange={this.changeRoomName} />
                 <button onClick={this.joinRoom}>Join Room</button>
+                <button onClick={this.joinRoomBot}>Join Bot Room</button>
                 <button onClick={this.ready}>Ready</button>
 
                 <p>State: {this.props.gameStore.state}</p>

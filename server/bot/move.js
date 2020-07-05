@@ -186,7 +186,9 @@ function genPawnMove(piece, src, board = []) {
     if (board[src + 9] / piece < 0) {
       moves.push(src + 9)
     }
-    moves.push(src + 8)
+    if (board[src + 8] === 0) {
+      moves.push(src + 8)
+    }
   } else {
     if (defaultPosition.b.includes(src)) {
       moves.push(src - 16)
@@ -197,7 +199,9 @@ function genPawnMove(piece, src, board = []) {
     if (board[src - 9] / piece < 0) {
       moves.push(src - 9)
     }
-    moves.push(src - 8)
+    if (board[src - 8] === 0) {
+      moves.push(src - 8)
+    }
   }
 
   return moves

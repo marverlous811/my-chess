@@ -21,6 +21,7 @@ class Player {
   }
 
   init(site, game) {
+    logger.debug('init player ', site)
     this.site = site
     this.game = game
 
@@ -30,6 +31,16 @@ class Player {
   join(name) {
     const retval = this.manager.userJoinRoom(name, this)
     logger.debug('joinRoom slot ', retval)
+    if (retval === -1) {
+      return this.sendMsg('join:error')
+    }
+
+    this.idx = retval
+    this.sendMsg('join:success')
+  }
+
+  joinBot(name) {
+    const retval = this.manager.userJoinBotRoom(name, this)
     if (retval === -1) {
       return this.sendMsg('join:error')
     }
@@ -64,6 +75,8 @@ class Player {
     switch (cmd) {
       case 'join':
         return this.join(args[0])
+      case 'join-bot':
+        return this.joinBot(args[0])
       case 'ready':
         return this.ready()
       case 'move':

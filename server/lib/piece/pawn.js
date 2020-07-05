@@ -15,13 +15,13 @@ function isEvolution(piece, idx) {
 }
 
 function isMoveValid({ src, dest, player, isDestEnemyOccupied = false }) {
-  logger.info('player: ', player, src, dest)
+  // logger.info('player: ', player, src, dest)
   if (player > 0) {
     if (isDestEnemyOccupied) {
       return dest === src + 9 || dest === src + 7
     }
 
-    logger.debug('move forward 1 ', dest === src + 8)
+    // logger.debug('move forward 1 ', dest === src + 8)
     return (
       dest === src + 8 ||
       (dest === src + 16 && defaultPosition.w.indexOf(src) !== -1)

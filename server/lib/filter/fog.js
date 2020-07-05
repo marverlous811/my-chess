@@ -15,14 +15,11 @@ function bishopFilter({ src, dest, board = [] }) {
   const rowDirector = startPos.x > endPos.x ? -1 : 1
   const columnDirector = startPos.y > endPos.y ? -1 : 1
 
-  console.log(rowDirector, columnDirector)
-
   let lastPosValid = { x: startPos.x, y: startPos.y }
   let tmpX = startPos.x + rowDirector,
     tmpY = startPos.y + columnDirector
   while (true) {
     const idx = convertPositionToIdx({ x: tmpX, y: tmpY })
-    console.log(idx, tmpX, tmpY)
     if (board[idx] !== 0) {
       break
     }
@@ -49,13 +46,11 @@ function rookFilter({ src, dest, board = [] }) {
   const columnDirector =
     startPos.y !== endPos.y ? (startPos.y > endPos.y ? -1 : 1) : 0
 
-  console.log(rowDirector, columnDirector)
   let lastPosValid = { x: startPos.x, y: startPos.y }
   let tmpX = startPos.x + rowDirector,
     tmpY = startPos.y + columnDirector
   while (true) {
     const idx = convertPositionToIdx({ x: tmpX, y: tmpY })
-    console.log(idx, tmpX, tmpY)
     if (board[idx] !== 0) {
       break
     }

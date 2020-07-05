@@ -3,7 +3,7 @@ const { genAllMove } = require('./move')
 const logger = require('../util/logger')('bot:simulate')
 
 class SimulateGame {
-  constructor(side = 1, board = []) {
+  constructor(side = -1, board = []) {
     this.side = side
     this.board = board
     this.turn = this.side

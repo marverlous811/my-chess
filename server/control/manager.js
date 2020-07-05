@@ -1,4 +1,5 @@
 const Room = require('./room')
+const BotRoom = require('./bot-room')
 const logger = require('../util/logger')('manager')
 
 class Manager {
@@ -14,6 +15,23 @@ class Manager {
     }
 
     const room = this.listRoom[name]
+    const retval = room.onUserJoinRoom(player)
+    if (retval === -1) {
+      return -1
+    }
+
+    player.setRoom(room)
+    return retval
+  }
+
+  userJoinBotRoom(name, player) {
+    const botRoom = 'bot-' + name
+    if (!this.listRoom.hasOwnProperty(botRoom)) {
+      const room = new BotRoom(botRoom)
+      this.listRoom[botRoom] = room
+    }
+
+    const room = this.listRoom[botRoom]
     const retval = room.onUserJoinRoom(player)
     if (retval === -1) {
       return -1

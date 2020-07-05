@@ -92,7 +92,7 @@ function move(src, dest, board = []) {
   }
   const piece = board[src]
   const isDestEnemyOccupied = board[dest] !== 0 && board[dest] / board[src] < 0
-  logger.debug('isDestEnemyOccupied: ', isDestEnemyOccupied)
+  // logger.debug('isDestEnemyOccupied: ', isDestEnemyOccupied)
   if (!validMove(piece, src, dest, isDestEnemyOccupied)) {
     logger.error('move error')
     return false

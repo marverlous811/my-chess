@@ -37,7 +37,7 @@ class SimulateGame {
 
   undo() {
     if (this.oldState.length <= 0) return
-    const board = this.oldState.shift()
+    const board = this.oldState.pop()
     this.board = board
     this.turn *= -1
     // logger.debug('board length ', this.board)
